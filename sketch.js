@@ -8,16 +8,30 @@ let velocityX = 0;
 let velocityY = 0;
 let snakeHeadX = 0;
 let snakeHeadY = 0;
+let snakeTailLength = 2;
+let snakeTail = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   snakeHeadX = windowWidth / 2 / SEGMENT_SIZE;
   snakeHeadY = windowHeight / 2 / SEGMENT_SIZE;
-  frameRate(10);
+  frameRate(1);
 }
 
 function draw() {
   background(220);
+
+  while (snakeTail.length >= snakeTailLength) snakeTail.shift();
+
+  snakeTail.push({ x: snakeHeadX, y: snakeHeadY });
+  snakeTail.forEach((block) => {
+    rect(
+      block.x * SEGMENT_SIZE,
+      block.y * SEGMENT_SIZE,
+      SEGMENT_SIZE,
+      SEGMENT_SIZE
+    );
+  });
 
   snakeHeadX += velocityX;
   snakeHeadY += velocityY;
