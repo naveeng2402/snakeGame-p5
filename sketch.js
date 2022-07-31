@@ -10,12 +10,19 @@ let snakeHeadX = 0;
 let snakeHeadY = 0;
 let snakeTailLength = 2;
 let snakeTail = [];
+let fruitX = 0;
+let fruitY = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
   snakeHeadX = windowWidth / 2 / SEGMENT_SIZE;
   snakeHeadY = windowHeight / 2 / SEGMENT_SIZE;
-  frameRate(1);
+
+  fruitX = floor(random(0, windowWidth / SEGMENT_SIZE));
+  fruitY = floor(random(0, windowHeight / SEGMENT_SIZE));
+
+  frameRate(10);
 }
 
 function draw() {
@@ -33,9 +40,29 @@ function draw() {
     );
   });
 
+  fill(255, 0, 0);
+  rect(
+    fruitX * SEGMENT_SIZE,
+    fruitY * SEGMENT_SIZE,
+    SEGMENT_SIZE,
+    SEGMENT_SIZE
+  );
+
+  fill(255);
+
   snakeHeadX += velocityX;
   snakeHeadY += velocityY;
   withinBoundary();
+  if (
+    snakeHeadX >= fruitX &&
+    snakeHeadX < fruitX + SEGMENT_SIZE &&
+    snakeHeadY >= fruitY &&
+    snakeHeadY < fruitY + SEGMENT_SIZE
+  ) {
+    snakeTailLength++;
+    fruitX = floor(random(0, windowWidth / SEGMENT_SIZE));
+    fruitY = floor(random(0, windowHeight / SEGMENT_SIZE));
+  }
   rect(
     snakeHeadX * SEGMENT_SIZE,
     snakeHeadY * SEGMENT_SIZE,
